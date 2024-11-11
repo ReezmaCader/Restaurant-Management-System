@@ -13,7 +13,7 @@
     width:10px;
 }
 .log {
-    width: 150px;
+    width: 200px;
     height: auto; 
     cursor: pointer; 
     margin-right: 20px; 
@@ -38,7 +38,7 @@
     background: transparent;
     font-size16px;
     color:#49557e;
-    border:1px solid tomato;
+    border:1px solid #A0522D;
     padding: 10px 30px;
     border-radius: 50px;
     cursor: pointer;
@@ -51,7 +51,7 @@
 
 .navbar .active{
     padding-bottom: 2px;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid #A0522D;
 }
 
 .navbar li{
@@ -66,7 +66,7 @@
     position: absolute;
     min-width: 10px;
     min-height: 10px;
-    background-color: tomato;
+    background-color: #A0522D;
     border-radius: 5px;
     top: -8px;
     right:-8px;

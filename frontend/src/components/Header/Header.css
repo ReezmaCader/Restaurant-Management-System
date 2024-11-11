@@ -32,10 +32,17 @@
 
 .header-contents button{
     border: none;
-    color: #747474;
+    color: white;
     font-weight:500;
     padding: 1vw 2.3vw;
-    background-color:white;
+    background-color:#A0522D;
     font-size:max(1vw,13px);
     border-radius:50px;
+    margin-left: auto;
+}
+
+.header-contents .text-button-container {
+    display: flex; /* Aligns <p> and button in a row */
+    gap: 1vw; /* Adds spacing between <p> and button */
+    align-items: center; /* Ensures vertical alignment */
 }
