@@ -1,9 +1,9 @@
 import React from 'react';
 import './ExploreMenu.css';
-import { menu_list } from '../../assets/assets'; // Ensure correct path
+import { menu_list } from '../../assets/assets'; 
 
 const ExploreMenu = ({ category, setCategory }) => {
-  console.log("Menu List:", menu_list); // Debugging step
+  console.log("Menu List:", menu_list); 
 
   return (
     <div className='explore-menu' id='explore-menu'>

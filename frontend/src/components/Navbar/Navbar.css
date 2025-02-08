@@ -23,7 +23,7 @@
 .navbar-menu{
     display: flex;
     list-style: none;
-    gap: 20px;
+    gap: 80px;
     color: black;
     font-size: 18px;
 }

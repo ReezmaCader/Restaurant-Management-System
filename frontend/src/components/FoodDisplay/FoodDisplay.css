@@ -1,14 +1,55 @@
-.food-display{
+.food-display {
     margin-top: 30px;
+    text-align: center;
 }
-.food-display h2{
-    font-size: max(2vw,24px);
+
+.food-display h2 {
+    font-size: max(2vw, 24px);
     font-weight: 600;
 }
-.food-display-list{
+
+/* Grid Layout - 4 Items Per Row */
+.food-display-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+    grid-template-columns: repeat(4, 1fr); /* Ensures 4 items per row */
     margin-top: 30px;
-    gap: 30px;
-    row-gap: 50px;
+    gap: 20px; /* Adds spacing between items */
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+}
+
+/* Uniform Food Card Styling */
+.food-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-height: 350px; /* Ensures uniform height */
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .food-display-list {
+        grid-template-columns: repeat(3, 1fr); /* 3 items per row on tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .food-display-list {
+        grid-template-columns: repeat(2, 1fr); /* 2 items per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .food-display-list {
+        grid-template-columns: repeat(1, 1fr); /* 1 item per row on very small screens */
+    }
 }

@@ -1,11 +1,13 @@
-.header{
-    height: 34vw;
+.header {
+    height: 25vw;
     margin: 30px auto;
-    background: url('/header_img.png') no-repeat;
-    background-size: contain;
+    background: url('/header_img.png') no-repeat center center;
+    background-size: cover;
     position: relative;
-
+    width: 80vw;
+    max-width: 80vw; 
 }
+
 
 .header-contents{
     position:absolute;
@@ -42,7 +44,7 @@
 }
 
 .header-contents .text-button-container {
-    display: flex; /* Aligns <p> and button in a row */
-    gap: 1vw; /* Adds spacing between <p> and button */
-    align-items: center; /* Ensures vertical alignment */
+    display: flex; 
+    gap: 1vw; 
+    align-items: center; 
 }

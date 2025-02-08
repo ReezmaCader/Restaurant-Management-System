@@ -9,10 +9,14 @@
     font-weight:500px;
 }
 
-.explore-menu-text{
-    max-width: 60%;
-    columns: #808080;
+.explore-menu-text {
+    max-width: 100%;
+    color: #808080;
+    font-size: 1.5rem; /* Adjust size as needed */
+    font-weight: 400; /* Adjust weight if needed */
+    line-height: 1.6; /* Improve readability */
 }
+
 
 .explore-menu-list{
     display:flex;
