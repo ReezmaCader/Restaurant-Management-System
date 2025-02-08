@@ -25,6 +25,7 @@
 }
 .food-item-image{
    width: 100%;
+   height: 100%;
    border-radius: 15px 15px 0px 0px;
 }
 .food-item-counter{
@@ -44,6 +45,7 @@
 .food-item-info{
     padding: 20px;
 }
+
 .food-item-name-rating{
     display: flex;
     justify-content: space-between;
@@ -55,14 +57,15 @@
     font-weight: 500;
 }
 .food-item-name-rating img{
-    width: 70px;
+    width: 100px;
+    height:30px;
 }
 .food-item-desc{
     color: #676767;
     font-size: 12px;
 }
 .food-item-price{
-    color: #FF4C24;
+    color: black;
     font-size: 22px;
     font-weight: 500;
     margin: 10px 0px;

@@ -48,12 +48,12 @@ import add_icon_green from './add_icon_green.png'
 import remove_icon_red from './remove_icon_red.png'
 import app_store from './app_store.png'
 import play_store from './play_store.png'
-import linkedin_icon from './linkedin_icon.png'
+import instagram_icon from './instagram_icon.png'
 import facebook_icon from './facebook_icon.png'
 import twitter_icon from './twitter_icon.png'
 import cross_icon from './cross_icon.png'
 import selector_icon from './selector_icon.png'
-import rating_starts from './rating_starts.png'
+import rating_stars from './rating_stars.png'
 import profile_icon from './profile_icon.png'
 import bag_icon from './bag_icon.png'
 import logout_icon from './logout_icon.png'
@@ -64,13 +64,13 @@ export const assets = {
     basket_icon,
     header_img,
     search_icon,
-    rating_starts,
+    rating_stars,
     add_icon_green,
     add_icon_white,
     remove_icon_red,
     app_store,
     play_store,
-    linkedin_icon,
+    instagram_icon,
     facebook_icon,
     twitter_icon,
     cross_icon,
