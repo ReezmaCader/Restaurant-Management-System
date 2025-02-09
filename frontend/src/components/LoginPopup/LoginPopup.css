@@ -45,7 +45,7 @@
     padding: 10px;
     border-radius: 4px;
     color: white;
-    background-color: #FF4C24;
+    background-color: #A0522D;
     font-size: 15px;
     cursor: pointer;
 }
@@ -56,13 +56,13 @@
     margin-top: -15px;
 }
 
-.login-popup-condition input{
-    margin-top: 5px;
-}
+/* .login-popup-condition input{
+    margin-top: 10px;
+} */
 
 
 .login-popup p span{
-    color: #FF4C24;
+    color: #A0522D;
     font-weight: 500;
     cursor: pointer;
 }
