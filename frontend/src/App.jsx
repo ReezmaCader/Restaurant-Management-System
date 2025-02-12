@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import Cart from './pages/Cart/Cart'
 import LoginPopup from './components/LoginPopup/LoginPopup'
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder'
+import Payment from './pages/Payment/Payment'
 
 const App = () => {
   const [showLogin,setShowLogin] = useState(false);
@@ -19,6 +20,7 @@ const App = () => {
         <Route path='/' element={<Home/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/order' element={<PlaceOrder/>}/>
+        <Route path='/payment' element={<Payment/>}/>
       </Routes>
     </div>
      <Footer />

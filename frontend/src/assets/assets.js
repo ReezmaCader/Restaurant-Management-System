@@ -51,7 +51,7 @@ import play_store from './play_store.png'
 import instagram_icon from './instagram_icon.png'
 import facebook_icon from './facebook_icon.png'
 import twitter_icon from './twitter_icon.png'
-import cross_icon from './cross_icon.png'
+import delete_icon from './delete_icon.png'
 import selector_icon from './selector_icon.png'
 import rating_stars from './rating_stars.png'
 import profile_icon from './profile_icon.png'
@@ -73,7 +73,7 @@ export const assets = {
     instagram_icon,
     facebook_icon,
     twitter_icon,
-    cross_icon,
+    delete_icon,
     selector_icon,
     profile_icon,
     logout_icon,

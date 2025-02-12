@@ -1,0 +1,121 @@
+.payment {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 50px;
+    margin: 100px 0px;
+}
+
+.paymentleft {
+    width: 100%;
+    max-width: max(30%, 500px);
+}
+
+.paymentleft h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.paymentleft h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #8b4e25;
+    margin-bottom: 20px;
+}
+
+.order-details {
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    padding-top: 10px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    padding: 5px 0;
+}
+
+.item .price {
+    font-weight: bold;
+}
+
+.quantity {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.payment-right {
+    width: 100%;
+    max-width: max(40%, 500px);
+}
+
+.payment-right h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.payment-right form {
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-right label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.payment-right input,
+.payment-right select {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.card-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card-number,
+.card-extra input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.card-extra {
+    display: flex;
+    gap: 10px;
+}
+
+.card-extra input {
+    flex: 1;
+    min-width: 0;
+}
+
+.payment-right button {
+    margin-top: 20px;
+    background-color: #a05a2c;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.payment-right button:hover {
+    background-color: #8b4e25;
+}
