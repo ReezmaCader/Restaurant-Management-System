@@ -11,7 +11,7 @@ const Payment = () => {
         <form className="payment">
             <div className="paymentleft">
                 <h2>Payment</h2>
-                <h1>LKR {totalAmount.toFixed(2)}</h1>
+                <h1>Rs. {totalAmount}.00</h1>
                 <div className="order-details">
                     {food_list.map((item) => {
                         if (cartItems[item._id] > 0) {
@@ -19,16 +19,17 @@ const Payment = () => {
                                 <div key={item._id}>
                                     <div className="item">
                                         <p>{item.name}</p>
-                                        <p className="price">LKR {item.price * cartItems[item._id]}.00</p>
+                                        <p className="price">Rs.{item.price * cartItems[item._id]}.00</p>
                                     </div>
                                     <p className="quantity">Qty {cartItems[item._id]} - {item.price} each</p>
+                                    <hr />
                                 </div>
                             );
                         }
                     })}
                     <div className="item">
-                        <p>Delivery Charge</p>
-                        <p className="price">LKR {deliveryFee.toFixed(2)}</p>
+                        <p>Delivery Charge(10%)</p>
+                        <p className="price">Rs.{deliveryFee}.00</p>
                     </div>
                 </div>
             </div>
@@ -41,13 +42,13 @@ const Payment = () => {
                         <input type="email" placeholder="Enter your email" />
 
                         <label>Card information</label>
-<div className="card-input">
-  <input type="text" className="card-number" placeholder="1234 1234 1234 1234" />
-  <div className="card-extra">
-    <input type="text" placeholder="MM / YY" />
-    <input type="text" placeholder="CVC" />
-  </div>
-</div>
+                        <div className="card-input">
+                            <input type="text" className="card-number" placeholder="1234 1234 1234 1234" />
+                            <div className="card-extra">
+                                <input type="text" placeholder="MM / YY" />
+                                <input type="text" placeholder="CVC" />
+                            </div>
+                        </div>
 
 
                         <label>Cardholder name</label>

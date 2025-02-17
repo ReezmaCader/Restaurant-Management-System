@@ -9,25 +9,22 @@
     font-weight: 600;
 }
 
-/* Grid Layout - 4 Items Per Row */
 .food-display-list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Ensures 4 items per row */
+    grid-template-columns: repeat(4, 1fr); 
     margin-top: 30px;
-    gap: 20px; /* Adds spacing between items */
+    gap: 20px; 
     justify-content: center;
     padding: 10px;
     width: 100%;
 }
 
-/* Uniform Food Card Styling */
 .food-item {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    min-height: 350px; /* Ensures uniform height */
     padding: 15px;
     background-color: white;
     border-radius: 10px;
@@ -36,21 +33,20 @@
     transition: transform 0.2s ease-in-out;
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
     .food-display-list {
-        grid-template-columns: repeat(3, 1fr); /* 3 items per row on tablets */
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
 @media (max-width: 768px) {
     .food-display-list {
-        grid-template-columns: repeat(2, 1fr); /* 2 items per row on smaller screens */
+        grid-template-columns: repeat(2, 1fr); 
     }
 }
 
 @media (max-width: 480px) {
     .food-display-list {
-        grid-template-columns: repeat(1, 1fr); /* 1 item per row on very small screens */
+        grid-template-columns: repeat(1, 1fr); 
     }
 }
