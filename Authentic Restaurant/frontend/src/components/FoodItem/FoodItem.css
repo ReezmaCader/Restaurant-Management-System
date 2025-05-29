@@ -70,3 +70,83 @@
     font-weight: 500;
     margin: 10px 0px;
 }
+/* Add these styles */
+.food-item-img-container {
+  position: relative;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff4444;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  z-index: 2;
+}
+
+.bogo-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff9800;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  z-index: 2;
+}
+
+.food-item-price-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.food-item-price.discounted {
+  color: #ff4444;
+  font-weight: bold;
+}
+
+.food-item-original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.bogo-text {
+  color: #ff9800;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Add these styles to existing CSS */
+.rating-display {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stars {
+  display: flex;
+}
+
+.star {
+  color: #ddd;
+  font-size: 1rem;
+}
+
+.star.filled {
+  color: #ffd700;
+}
+
+.rating-text {
+  font-size: 0.8rem;
+  color: #666;
+}
+

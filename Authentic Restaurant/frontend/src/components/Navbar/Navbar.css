@@ -37,7 +37,7 @@
 
 .navbar button{
     background: transparent;
-    font-size16px;
+    font-size:16px;
     color:#49557e;
     border:1px solid #A0522D;
     padding: 10px 30px;
@@ -73,55 +73,106 @@
     right:-8px;
 }
 
-@media (max-width:1050px) {
-    .navbar .logo {
-        width: 140px;
-    }
-
-    .navbar-menu {
-        gap: 20px;
-        font-size: 17px;
-    }
-
-    .navbar-right {
-        gap: 30px;
-    }
-
-    .navbar-right img {
-        width: 22px;
-    }
-
-    .navbar-right button {
-        padding: 8px 25px;
-    }
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
-@media (max-width:900px) {
-    .navbar .logo {
-        width: 120px;
-    }
 
-    .navbar-menu {
-        gap: 15px;
-        font-size: 16px;
-    }
+.user-menu span {
+    font-size: 14px;
+    color: #333;
+}
 
-    .navbar-right {
-        gap: 20px;
-    }
+.user-menu button {
+    background: #ff6347;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
 
-    .navbar-right img {
-        width: 20px;
-    }
+.user-menu button:hover {
+    background: #ff4500;
+}
 
-    .navbar-right button {
-        font-size: 15px;
-        padding: 7px 20px;
-    }
+.error-message {
+    margin: 10px 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Admin navbar styling */
+.navbar.admin-navbar {
+    background-color: #A0522D;
+    color: white;
+    padding: 20px 40px;
+    border-radius: 0;
+}
+
+.navbar.admin-navbar .logo {
+    filter: brightness(0) invert(1); /* Makes logo white if it's dark */
+}
+
+.navbar.admin-navbar .user-menu span {
+    color: white;
+    font-weight: 600;
+}
+
+.navbar.admin-navbar .user-menu button {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.navbar.admin-navbar .user-menu button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar.admin-navbar .search {
+    filter: brightness(0) invert(1); /* Makes search icon white */
+}
+
+.my-orders-btn {
+  background: transparent;
+  font-size: 16px;
+  color: #49557e;
+  border: 1px solid #A0522D;
+  padding: 8px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.my-orders-btn:hover {
+  background-color: #fff4f2;
+  color: #A0522D;
+}
+
+.navbar.admin-navbar .my-orders-btn {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navbar.admin-navbar .my-orders-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 @media (max-width:750px) {
-    .navbar-menu {
-        display: none;
+    .footer-content{
+        display: flex;
+        flex-direction: column;
+        gap: 35px;
+    }
+    .footer-copyright{
+        text-align: center;
     }
 }
 
