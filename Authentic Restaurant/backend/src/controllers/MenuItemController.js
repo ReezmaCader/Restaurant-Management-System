@@ -25,9 +25,9 @@ exports.createMenuItem = async (req, res) => {
         const { name, description, price, category, image, discount = 0, freeItem = false, availability = true } = req.body;
 
         // Validation
-        if (!name || !description || !price || !category || !image) {
-            return res.status(400).json({ msg: "All required fields must be provided" });
-        }
+        // if (!name || !description || !price || !category || !image) {
+        //     return res.status(400).json({ msg: "All required fields must be provided" });
+        // }
 
         if (price <= 0) {
             return res.status(400).json({ msg: "Price must be greater than 0" });

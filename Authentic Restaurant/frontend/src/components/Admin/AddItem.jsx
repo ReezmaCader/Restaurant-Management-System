@@ -105,7 +105,7 @@ function AddItem() {
           placeholder="Product description"
           value={formData.description}
           onChange={handleInputChange}
-          required
+          // required
         />
 
         <div className="form-row">
