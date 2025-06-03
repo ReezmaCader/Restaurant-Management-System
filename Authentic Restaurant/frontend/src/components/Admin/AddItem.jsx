@@ -6,7 +6,7 @@ function AddItem() {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    category: 'Sandwich',
+    category: 'Indian',
     price: '',
     image: ''
   });
@@ -115,11 +115,11 @@ function AddItem() {
             value={formData.category}
             onChange={handleInputChange}
           >
-            <option value="Sandwich">Sandwich</option>
-            <option value="Pasta">Pasta</option>
             <option value="Indian">Indian</option>
+            <option value="Sandwich">Sandwich</option>
             <option value="Cake">Cake</option>
             <option value="Pure Veg">Pure Veg</option>
+            <option value="Pasta">Pasta</option>
             <option value="Noodles">Noodles</option>
             <option value="Deserts">Deserts</option>
           </select>
@@ -128,7 +128,7 @@ function AddItem() {
             className="input"
             name="price"
             type="number"
-            step="0.01"
+            step="10"
             placeholder="1000.00"
             value={formData.price}
             onChange={handleInputChange}
