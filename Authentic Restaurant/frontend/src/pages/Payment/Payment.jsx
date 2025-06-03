@@ -40,7 +40,7 @@ const Payment = () => {
 
         // Handle BOGO
         if (item.freeItem) {
-            const payableQuantity = Math.ceil(quantity / 2);
+            const payableQuantity = Math.ceil(quantity);
             return itemPrice * payableQuantity;
         }
 
@@ -74,7 +74,7 @@ const Payment = () => {
             <div className="paymentleft">
                 <h2>Payment</h2>
                 <h1>Rs. {totalAmount.toFixed(2)}</h1>
-                <div className="order-details">
+                <div className="order-details-con">
                     {food_list.map((item) => {
                         if (cartItems[item.itemId] > 0) {
                             const quantity = cartItems[item.itemId];

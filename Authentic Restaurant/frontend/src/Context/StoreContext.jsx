@@ -84,7 +84,7 @@ const StoreContextProvider = (props) => {
                     // Handle BOGO (Buy One Get One Free)
                     if (itemInfo.freeItem) {
                         // For BOGO, customer pays for half the quantity (rounded up)
-                        const payableQuantity = Math.ceil(quantity / 2);
+                        const payableQuantity = Math.ceil(quantity);
                         totalAmount += itemPrice * payableQuantity;
                     } else {
                         totalAmount += itemPrice * quantity;

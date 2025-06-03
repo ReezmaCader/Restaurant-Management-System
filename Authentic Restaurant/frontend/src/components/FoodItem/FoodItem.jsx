@@ -44,8 +44,9 @@ const FoodItem = ({ id, name, price, description, image, averageRating, totalRat
                 }
             </div>
             <div className="food-item-info">
+                <h3>{name}</h3>
                 <div className="food-item-name-rating">
-                    <p>{name}</p>
+                    
                     <div className="rating-display">
                         <div className="stars">
                             {[1, 2, 3, 4, 5].map((star) => (

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './Cart.css';
 import { StoreContext } from '../../Context/StoreContext';
 import { assets } from '../../assets/assets'
@@ -6,23 +6,37 @@ import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const { cartItems, food_list, removeFromCart, getTotalCartAmount, clearCart } = useContext(StoreContext);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    setUser(userData);
+  }, []);
 
   const calculateItemTotal = (item, quantity) => {
     let itemPrice = item.price;
-    
+
     // Apply discount if available
     if (item.discount > 0) {
       itemPrice = itemPrice * (1 - item.discount / 100);
     }
-    
+
     // Handle BOGO
     if (item.freeItem) {
-      const payableQuantity = Math.ceil(quantity / 2);
+      const payableQuantity = Math.ceil(quantity);
       return Math.round(itemPrice * payableQuantity * 100) / 100;
     }
-    
+
     return Math.round(itemPrice * quantity * 100) / 100;
+  };
+
+  const handleCart = () =>{
+    if(!user){
+      alert("Log in first..");
+      return;
+    }
+    navigate('/order');
   };
 
   const subtotal = getTotalCartAmount();
@@ -46,8 +60,8 @@ const Cart = () => {
           if (cartItems[item.itemId] > 0) {
             const quantity = cartItems[item.itemId];
             const itemTotal = calculateItemTotal(item, quantity);
-            const displayPrice = item.discount > 0 ? 
-              (Math.round(item.price * (1 - item.discount / 100) * 100) / 100).toFixed(2) : 
+            const displayPrice = item.discount > 0 ?
+              (Math.round(item.price * (1 - item.discount / 100) * 100) / 100).toFixed(2) :
               item.price.toFixed(2);
 
             return (
@@ -94,7 +108,10 @@ const Cart = () => {
               <b>Rs.{total.toFixed(2)}</b>
             </div>
           </div>
-          <button onClick={() => navigate('/order')}>PROCEED TO CHECKOUT</button>
+          <button
+            onClick={handleCart}
+            //disabled={!user}
+          >PROCEED TO CHECKOUT</button>
         </div>
       </div>
     </div>

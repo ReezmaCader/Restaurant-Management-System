@@ -99,14 +99,14 @@ function AddItem() {
           required
         />
 
-        <textarea
+        {/* <textarea
           className="input textarea"
           name="description"
           placeholder="Product description"
           value={formData.description}
           onChange={handleInputChange}
           // required
-        />
+        /> */}
 
         <div className="form-row">
           <select
