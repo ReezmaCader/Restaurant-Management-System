@@ -138,7 +138,7 @@ function EditItem({ item, onBack, onUpdate }) {
             className="input" 
             name="price"
             type="number"
-            step="0.01"
+            step="10"
             placeholder="1000.00" 
             value={formData.price}
             onChange={handleInputChange}
