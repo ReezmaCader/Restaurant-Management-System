@@ -114,10 +114,13 @@ const LoginPopup = ({ setShowLogin }) => {
                     )}
                 </div>
                 {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
-                <div className="login-popup-condition">
-                    <input type="checkbox" required />
-                    <p>By continuing, i agree to the terms of use & privacy policy.</p>
-                </div>
+               
+                {currState === "Sign Up" && (
+                    <div className="login-popup-condition">
+                        <input type="checkbox" required />
+                        <p>By continuing, I agree to the terms of use & privacy policy.</p>
+                    </div>
+                )}
                 <button type="submit" disabled={loading}>
                     {loading ? 'Loading...' : (currState === "Login" ? "Login" : "Create account")}
                 </button>
