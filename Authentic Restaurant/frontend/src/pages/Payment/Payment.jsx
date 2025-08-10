@@ -8,12 +8,14 @@ import {
 } from '@stripe/react-stripe-js';
 import { api } from "../../utils/api";
 import { useNavigate } from 'react-router-dom';
+import ToastMessage from '../../components/ToastMassage/ToastMessage';
 
 const stripePromise = loadStripe('pk_test_51RL30Q4RrwrJsL3COD7A7MQc8QGaMoVfCDETnJywSofxxfEIYfSz0fQFRuwZLTkaRHJIpo6NCZZC8MDrQbelkwmV00kzkTVrVn');
 
 const Payment = () => {
     const { cartItems, food_list, getTotalCartAmount } = useContext(StoreContext);
     const [pendingOrder, setPendingOrder] = useState(null);
+    const [toast, setToast] = useState({ message: '', type: '' });
     const navigate = useNavigate();
     
     const deliveryFee = getTotalCartAmount() * 0.1;
@@ -53,6 +55,7 @@ const Payment = () => {
             return payment.clientSecret;
         } catch (error) {
             console.error('Error fetching client secret:', error);
+            setToast({ message: 'Failed to initialize payment. Please try again.', type: 'error' });
             throw error;
         }
     }, [totalAmount]);
@@ -71,6 +74,12 @@ const Payment = () => {
 
     return (
         <form className="payment">
+            <ToastMessage
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast({ message: '', type: '' })}
+                duration={3000}
+            />
             <div className="paymentleft">
                 <h2>Payment</h2>
                 <h1>Rs. {totalAmount.toFixed(2)}</h1>

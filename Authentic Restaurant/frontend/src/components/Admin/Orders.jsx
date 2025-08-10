@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../utils/api';
+import ToastMessage from '../ToastMassage/ToastMessage';
 
 function Orders() {
   const [orderTab, setOrderTab] = useState("pending");
@@ -29,6 +30,7 @@ function OrderPending() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [menuItems, setMenuItems] = useState({});
+  const [toast, setToast] = useState({ message: '', type: '' });
 
   useEffect(() => {
     fetchPendingOrders();
@@ -47,6 +49,7 @@ function OrderPending() {
       return menuItems[itemId];
     } catch (error) {
       console.error('Error fetching menu item:', error);
+      setToast({ message: '❌ Failed to fetch menu item details', type: 'error' });
       return null;
     }
   };
@@ -78,9 +81,18 @@ function OrderPending() {
     try {
       await api.updateOrderStatus(orderId, newStatus);
       fetchPendingOrders();
+      const statusEmoji = {
+        'food_processing': '👨‍🍳',
+        'out_for_delivery': '🚚',
+        'delivered': '✅'
+      };
+      setToast({ 
+        message: `${statusEmoji[newStatus]} Order status updated to ${newStatus.replace(/_/g, ' ')}`,
+        type: 'success'
+      });
     } catch (error) {
       console.error('Error updating order status:', error);
-      alert('Failed to update order status');
+      setToast({ message: '❌ Failed to update order status', type: 'error' });
     }
   };
 
@@ -111,6 +123,12 @@ function OrderPending() {
 
   return (
     <div>
+      <ToastMessage
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: '', type: '' })}
+        duration={3000}
+      />
       {orders.length === 0 ? (
         <div className="no-orders">No pending orders</div>
       ) : (
@@ -162,6 +180,7 @@ function OrderCompleted() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [menuItems, setMenuItems] = useState({});
+  const [toast, setToast] = useState({ message: '', type: '' });
 
   useEffect(() => {
     fetchCompletedOrders();
@@ -200,6 +219,7 @@ function OrderCompleted() {
       }
     } catch (error) {
       console.error('Error fetching completed orders:', error);
+      setToast({ message: '❌ Failed to fetch completed orders', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -232,6 +252,12 @@ function OrderCompleted() {
 
   return (
     <div>
+      <ToastMessage
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: '', type: '' })}
+        duration={3000}
+      />
       {orders.length === 0 ? (
         <div className="no-orders">No completed orders</div>
       ) : (

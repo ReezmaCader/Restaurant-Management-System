@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { api } from '../../utils/api';
 import { uploadImage } from '../../utils/supabase';
+import ToastMessage from '../ToastMassage/ToastMessage';
 
 function AddItem() {
   const [formData, setFormData] = useState({
@@ -12,8 +13,7 @@ function AddItem() {
   });
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [toast, setToast] = useState({ message: '', type: '' });
 
   const handleInputChange = (e) => {
     setFormData({
@@ -30,16 +30,12 @@ function AddItem() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    setSuccess('');
-
+    setToast({ message: '', type: '' });
     try {
       let imageUrl = '';
-
       if (imageFile) {
         imageUrl = await uploadImage(imageFile);
       }
-
       const itemData = {
         ...formData,
         price: parseFloat(formData.price),
@@ -48,11 +44,8 @@ function AddItem() {
         freeItem: false,
         availability: true
       };
-
       await api.createMenuItem(itemData);
-      setSuccess('Food item added successfully!');
-
-      // Reset form
+      setToast({ message: '🎉 Food item added successfully!', type: 'success' });
       setFormData({
         name: '',
         description: '',
@@ -61,9 +54,8 @@ function AddItem() {
         image: ''
       });
       setImageFile(null);
-
     } catch (error) {
-      setError(error.message || 'Failed to add food item');
+      setToast({ message: error.message || 'Failed to add food item', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -72,6 +64,13 @@ function AddItem() {
   return (
     <div>
       <h2 className="content-title">Add New Food Item</h2>
+      {/* Toast notification */}
+      <ToastMessage
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: '', type: '' })}
+        duration={3000}
+      />
       <form className="add-form" onSubmit={handleSubmit}>
         <div className={`upload-box ${imageFile ? 'has-file' : ''}`}>
           <input
@@ -86,10 +85,6 @@ function AddItem() {
             Selected: {imageFile.name}
           </div>
         )}
-
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
-
         <input
           className="input"
           name="name"
@@ -98,7 +93,6 @@ function AddItem() {
           onChange={handleInputChange}
           required
         />
-
         {/* <textarea
           className="input textarea"
           name="description"
@@ -107,7 +101,6 @@ function AddItem() {
           onChange={handleInputChange}
           // required
         /> */}
-
         <div className="form-row">
           <select
             className="input select"
@@ -123,7 +116,6 @@ function AddItem() {
             <option value="Noodles">Noodles</option>
             <option value="Deserts">Deserts</option>
           </select>
-
           <input
             className="input"
             name="price"
@@ -135,10 +127,6 @@ function AddItem() {
             required
           />
         </div>
-
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {success && <p style={{ color: 'green' }}>{success}</p>}
-
         <button className="add-btn" type="submit" disabled={loading}>
           {loading ? 'Adding...' : 'Add'}
         </button>

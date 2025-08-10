@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../utils/api';
 import { uploadImage } from '../../utils/supabase';
+import ToastMessage from '../ToastMassage/ToastMessage';
 
 function EditItem({ item, onBack, onUpdate }) {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ function EditItem({ item, onBack, onUpdate }) {
   });
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ message: '', type: '' });
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -51,7 +53,7 @@ function EditItem({ item, onBack, onUpdate }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setToast({ message: '', type: '' });
 
     try {
       let updateData = {
@@ -67,14 +69,14 @@ function EditItem({ item, onBack, onUpdate }) {
 
       console.log('Updating item:', item.itemId, updateData);
       await api.updateMenuItem(item.itemId, updateData);
-      alert('Item updated successfully!');
+      setToast({ message: '🎉 Item updated successfully!', type: 'success' });
       
       if (onUpdate) onUpdate();
       if (onBack) onBack();
       
     } catch (error) {
       console.error('Update error:', error);
-      setError(error.message || 'Failed to update item');
+      setToast({ message: error.message || 'Failed to update item', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -93,7 +95,12 @@ function EditItem({ item, onBack, onUpdate }) {
 
   return (
     <div className="edit-item-wrapper">
-      
+      <ToastMessage
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: '', type: '' })}
+        duration={3000}
+      />
       <form className="" onSubmit={handleSubmit}>
         <div className="current-image-section">
           <label className="edit-label">Current Image</label>

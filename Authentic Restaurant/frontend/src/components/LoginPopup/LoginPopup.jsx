@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LoginPopup.css'
 import { assets } from '../../assets/assets'
 import { api } from '../../utils/api'
+import ToastMessage from '../ToastMassage/ToastMessage';
 
 const LoginPopup = ({ setShowLogin }) => {
     const [currState, setCurrState] = useState("Sign Up");
@@ -13,7 +14,7 @@ const LoginPopup = ({ setShowLogin }) => {
         phone_number: ''
     });
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [toast, setToast] = useState({ message: '', type: '' });
 
     const handleInputChange = (e) => {
         setFormData({
@@ -25,12 +26,12 @@ const LoginPopup = ({ setShowLogin }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError('');
+        setToast({ message: '', type: '' });
 
         try {
             if (currState === "Sign Up") {
                 const response = await api.register(formData);
-                alert('Registration successful! Please login.');
+                setToast({ message: '✨ Registration successful! Please login.', type: 'success' });
                 setCurrState("Login");
             } else {
                 const response = await api.login({
@@ -42,29 +43,55 @@ const LoginPopup = ({ setShowLogin }) => {
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('user', JSON.stringify(response.user));
 
-                // Redirect based on role
-                if (response.user.role === 'admin') {
-                    window.location.href = '/admin';
-                } else {
-                    window.location.href = '/';
-                }
+                setToast({ message: '🎉 Login successful!', type: 'success' });
 
-                setShowLogin(false);
+                // Short delay to show success message before redirect
+                setTimeout(() => {
+                    // Redirect based on role
+                    if (response.user.role === 'admin') {
+                        window.location.href = '/admin';
+                    } else {
+                        window.location.href = '/';
+                    }
+                    setShowLogin(false);
+                }, 1000);
             }
         } catch (error) {
-            setError(error.message || 'Something went wrong');
+            setToast({ message: error.message || 'Something went wrong', type: 'error' });
         } finally {
             setLoading(false);
         }
     };
 
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === "Enter") {
+                document.querySelector(".login-popup-container")?.requestSubmit();
+            }
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
+
     return (
         <div className='login-popup'>
+            <ToastMessage
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast({ message: '', type: '' })}
+                duration={3000}
+            />
             <form className='login-popup-container' onSubmit={handleSubmit}>
                 <div className="login-popup-title">
                     <h2>{currState}</h2>
-                    <img onClick={() => setShowLogin(false)} src={assets.cross_icon} alt="" />
                 </div>
+                <button
+                    className="login-popup-close"
+                    onClick={() => setShowLogin(false)}
+                    aria-label="Close"
+                >
+                    <img src={assets.close_icon} alt="Close" />
+                </button>
                 <div className="login-popup-inputs">
                     {currState === "Sign Up" && (
                         <input
@@ -113,8 +140,6 @@ const LoginPopup = ({ setShowLogin }) => {
                         </>
                     )}
                 </div>
-                {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
-               
                 {currState === "Sign Up" && (
                     <div className="login-popup-condition">
                         <input type="checkbox" required />

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../utils/api';
+import ToastMessage from '../ToastMassage/ToastMessage';
 
 function Discount() {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
+  const [toast, setToast] = useState({ message: '', type: '' });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClearModalOpen, setIsClearModalOpen] = useState(false);
 
   useEffect(() => {
     fetchFoods();
@@ -14,8 +18,9 @@ function Discount() {
     try {
       const data = await api.getMenuItems();
       setFoods(data);
+      setError(null);
     } catch (error) {
-      setError('Failed to fetch food items');
+      setToast({ message: '❌ Failed to fetch food items', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -25,9 +30,9 @@ function Discount() {
     try {
       await api.updateMenuItem(itemId, { discount: parseFloat(discount) });
       fetchFoods(); // Refresh the list
-      alert('Discount updated successfully!');
+      setToast({ message: '💰 Discount updated successfully!', type: 'success' });
     } catch (error) {
-      alert('Failed to update discount');
+      setToast({ message: 'Failed to update discount', type: 'error' });
     }
   };
 
@@ -35,9 +40,12 @@ function Discount() {
     try {
       await api.updateMenuItem(itemId, { freeItem: !currentFreeItem });
       fetchFoods(); // Refresh the list
-      alert('Free item status updated successfully!');
+      setToast({
+        message: !currentFreeItem ? '🎁 BOGO offer activated!' : '🎁 BOGO offer deactivated',
+        type: 'success'
+      });
     } catch (error) {
-      alert('Failed to update free item status');
+      setToast({ message: 'Failed to update BOGO offer', type: 'error' });
     }
   };
 
@@ -45,15 +53,21 @@ function Discount() {
     if (value >= 0 && value <= 100) {
       updateDiscount(itemId, value);
     } else {
-      alert('Discount must be between 0 and 100');
+      setToast({ message: '⚠️ Discount must be between 0 and 100', type: 'error' });
     }
   };
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div style={{color: 'red'}}>{error}</div>;
+  if (error) return <div style={{ color: 'red' }}>{error}</div>;
 
   return (
     <div>
+      <ToastMessage
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: '', type: '' })}
+        duration={3000}
+      />
       <h2 className="content-title">Manage Discounts & Offers</h2>
       <table className="food-table">
         <thead>
@@ -88,9 +102,9 @@ function Discount() {
                     max="100"
                     value={food.discount}
                     onChange={(e) => {
-                      const newFoods = foods.map(f => 
-                        f.itemId === food.itemId 
-                          ? {...f, discount: parseFloat(e.target.value) || 0}
+                      const newFoods = foods.map(f =>
+                        f.itemId === food.itemId
+                          ? { ...f, discount: parseFloat(e.target.value) || 0 }
                           : f
                       );
                       setFoods(newFoods);
@@ -106,11 +120,11 @@ function Discount() {
                   %
                 </td>
                 <td>
-                  <b style={{color: food.discount > 0 ? '#4CAF50' : 'inherit'}}>
+                  <b style={{ color: food.discount > 0 ? '#4CAF50' : 'inherit' }}>
                     Rs.{finalPrice.toFixed(2)}
                   </b>
                   {food.discount > 0 && (
-                    <div style={{fontSize: '12px', color: '#4CAF50'}}>
+                    <div style={{ fontSize: '12px', color: '#4CAF50' }}>
                       Save: Rs.{(food.price - finalPrice).toFixed(2)}
                     </div>
                   )}
@@ -152,17 +166,12 @@ function Discount() {
           })}
         </tbody>
       </table>
-      
-      <div style={{marginTop: '20px', padding: '15px', background: '#f5f5f5', borderRadius: '5px'}}>
+
+      <div style={{ marginTop: '20px', padding: '15px', background: '#f5f5f5', borderRadius: '5px' }}>
         <h3>Quick Actions:</h3>
-        <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <button
-            onClick={() => {
-              const discount = prompt('Enter discount percentage for all items (0-100):');
-              if (discount !== null && discount >= 0 && discount <= 100) {
-                foods.forEach(food => updateDiscount(food.itemId, discount));
-              }
-            }}
+            onClick={() => setIsModalOpen(true)}
             style={{
               background: '#2196F3',
               color: 'white',
@@ -174,13 +183,9 @@ function Discount() {
           >
             Apply Discount to All
           </button>
-          
+
           <button
-            onClick={() => {
-              if (window.confirm('Clear all discounts?')) {
-                foods.forEach(food => updateDiscount(food.itemId, 0));
-              }
-            }}
+            onClick={() => setIsClearModalOpen(true)}
             style={{
               background: '#f44336',
               color: 'white',
@@ -191,6 +196,94 @@ function Discount() {
             }}
           >
             Clear All Discounts
+          </button>
+        </div>
+
+        <DiscountModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onApply={(discount) => {
+            foods.forEach(food => updateDiscount(food.itemId, discount));
+            setToast({ message: '💰 Bulk discount applied successfully!', type: 'success' });
+          }}
+        />
+        <ClearConfirmationModal
+          isOpen={isClearModalOpen}
+          onClose={() => setIsClearModalOpen(false)}
+          onConfirm={() => {
+            foods.forEach(food => updateDiscount(food.itemId, 0));
+            setToast({ message: '🧹 All discounts cleared successfully!', type: 'success' });
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function DiscountModal({ isOpen, onClose, onApply }) {
+  const [discount, setDiscount] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const discountValue = parseFloat(discount);
+    if (discountValue >= 0 && discountValue <= 100) {
+      onApply(discountValue);
+      onClose();
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h3>Apply Bulk Discount</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="discount">Discount Percentage (0-100):</label>
+            <input
+              type="number"
+              id="discount"
+              min="0"
+              max="100"
+              value={discount}
+              onChange={(e) => setDiscount(e.target.value)}
+              required
+            />
+          </div>
+          <div className="modal-actions">
+            <button type="submit" className="btn-primary">Apply</button>
+            <button type="button" className="btn-secondary" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function ClearConfirmationModal({ isOpen, onClose, onConfirm }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h3>Clear All Discounts</h3>
+        <p>Are you sure you want to remove all discounts? This action cannot be undone.</p>
+        <div className="modal-actions">
+          <button 
+            className="btn-primary" 
+            style={{ background: '#f44336' }}
+            onClick={() => {
+              onConfirm();
+              onClose();
+            }}
+          >
+            Clear All
+          </button>
+          <button className="btn-secondary" onClick={onClose}>
+            Cancel
           </button>
         </div>
       </div>

@@ -7,10 +7,12 @@ import FoodList from '../../components/Admin/FoodList';
 import EditItem from '../../components/Admin/EditItem';
 import Orders from '../../components/Admin/Orders';
 import Discount from '../../components/Admin/Discount';
+import ToastMessage from '../../components/ToastMassage/ToastMessage';
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [editingItem, setEditingItem] = useState(null);
+  const [toast, setToast] = useState({ message: '', type: '' });
 
   const handleEdit = (food) => {
     console.log('Editing item:', food);
@@ -26,6 +28,7 @@ function AdminDashboard() {
 
   const handleUpdateComplete = () => {
     console.log('Update completed');
+    setToast({ message: '🎉 Item updated successfully!', type: 'success' });
     setEditingItem(null);
     setActiveTab('food-list');
   };
@@ -47,8 +50,8 @@ function AdminDashboard() {
         return <FoodList onEdit={handleEdit} />;
       case 'edit-item':
         return (
-          <EditItem 
-            item={editingItem} 
+          <EditItem
+            item={editingItem}
             onBack={handleBackFromEdit}
             onUpdate={handleUpdateComplete}
           />
@@ -68,64 +71,69 @@ function AdminDashboard() {
 
   return (
     <div className="admin-root">
-      
+      <ToastMessage
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: '', type: '' })}
+        duration={3000}
+      />
 
       {/* Body */}
       <div className="admin-body">
         {/* Sidebar */}
         <div className="admin-sidebar">
-          <button 
+          <button
             className={getSidebarButtonClass('dashboard')}
             onClick={() => handleTabClick('dashboard')}
           >
-            
+
             Dashboard
           </button>
-          
-          <button 
+
+          <button
             className={getSidebarButtonClass('add-item')}
             onClick={() => handleTabClick('add-item')}
           >
-            
+
             Add Item
           </button>
-          
-          <button 
+
+          <button
             className={getSidebarButtonClass('food-list')}
             onClick={() => handleTabClick('food-list')}
           >
-            
+
             Food List
           </button>
 
           {/* Show Edit Item button only when editing */}
           {editingItem && (
-            <button 
+            <button
               className={getSidebarButtonClass('edit-item')}
               onClick={() => handleTabClick('edit-item')}
             >
-              
+
               Edit Item
             </button>
           )}
-          
-          <button 
+
+          <button
             className={getSidebarButtonClass('orders')}
             onClick={() => handleTabClick('orders')}
           >
-            
+
             Orders
           </button>
-          
-          <button 
+
+          <button
             className={getSidebarButtonClass('discount')}
             onClick={() => handleTabClick('discount')}
           >
-            
+
             Discounts
           </button>
 
-          
+
         </div>
 
         {/* Content */}
@@ -152,8 +160,8 @@ function AdminDashboard() {
         </div>
       </div>
 
-      
-      
+
+
     </div>
   );
 }

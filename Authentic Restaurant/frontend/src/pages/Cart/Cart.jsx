@@ -1,12 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
 import './Cart.css';
 import { StoreContext } from '../../Context/StoreContext';
-import { assets } from '../../assets/assets'
+import { assets } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
+import ToastMessage from '../../components/ToastMassage/ToastMessage';
 
 const Cart = () => {
   const { cartItems, food_list, removeFromCart, getTotalCartAmount, clearCart } = useContext(StoreContext);
   const [user, setUser] = useState(null);
+  const [toast, setToast] = useState({ message: '', type: '' });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,9 +33,9 @@ const Cart = () => {
     return Math.round(itemPrice * quantity * 100) / 100;
   };
 
-  const handleCart = () =>{
+  const handleCart = () => {
     if(!user){
-      alert("Log in first..");
+      setToast({ message: '⚠️ Please log in first to proceed', type: 'error' });
       return;
     }
     navigate('/order');
@@ -45,6 +47,12 @@ const Cart = () => {
 
   return (
     <div className="cart">
+      <ToastMessage
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: '', type: '' })}
+        duration={3000}
+      />
       <div className="cart-items">
         <div className="cart-items-title">
           <p>Items</p>

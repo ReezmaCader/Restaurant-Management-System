@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../utils/api';
+import ToastMessage from '../ToastMassage/ToastMessage';
 
 function FoodList({ onEdit }) {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
+  const [toast, setToast] = useState({ message: '', type: '' });
   const [imageErrors, setImageErrors] = useState({});
 
   useEffect(() => {
@@ -15,6 +17,7 @@ function FoodList({ onEdit }) {
     try {
       const data = await api.getMenuItems();
       setFoods(data);
+      setError(null);
     } catch (error) {
       setError('Failed to fetch food items');
     } finally {
@@ -26,8 +29,9 @@ function FoodList({ onEdit }) {
     try {
       await api.updateMenuItem(itemId, { availability: !currentAvailability });
       fetchFoods(); // Refresh the list
+      setToast({ message: '✅ Item availability updated successfully!', type: 'success' });
     } catch (error) {
-      alert('Failed to update availability');
+      setToast({ message: 'Failed to update availability', type: 'error' });
     }
   };
 
@@ -36,8 +40,9 @@ function FoodList({ onEdit }) {
       try {
         await api.deleteMenuItem(itemId);
         fetchFoods(); // Refresh the list
+        setToast({ message: '🗑️ Item deleted successfully!', type: 'success' });
       } catch (error) {
-        alert('Failed to delete item');
+        setToast({ message: 'Failed to delete item', type: 'error' });
       }
     }
   };
@@ -100,6 +105,12 @@ function FoodList({ onEdit }) {
 
   return (
     <div>
+      <ToastMessage
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: '', type: '' })}
+        duration={3000}
+      />
       <h2 className="content-title">All Foods List</h2>
       <table className="food-table">
         <thead>
