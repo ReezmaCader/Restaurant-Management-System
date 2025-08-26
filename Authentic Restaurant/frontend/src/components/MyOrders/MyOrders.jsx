@@ -100,9 +100,6 @@ function MyOrders() {
                   </div>
                 </div>
 
-
-
-
                 <div className="order-items">
                   {order.items.map((item, index) => (
                     <div key={index} className="order-item-row">
