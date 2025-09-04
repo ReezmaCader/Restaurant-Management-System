@@ -150,3 +150,31 @@
   color: #666;
 }
 
+.food-item.unavailable {
+    opacity: 0.7;
+}
+
+.unavailable-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px 15px 0 0;
+}
+
+.unavailable-overlay span {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    padding: 10px;
+}
+
+.food-item.unavailable .food-item-image {
+    filter: grayscale(100%);
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './LoginPopup.css'
 import { assets } from '../../assets/assets'
 import { api } from '../../utils/api'
@@ -63,16 +63,6 @@ const LoginPopup = ({ setShowLogin }) => {
         }
     };
 
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.key === "Enter") {
-                document.querySelector(".login-popup-container")?.requestSubmit();
-            }
-        };
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, []);
-
     return (
         <div className='login-popup'>
             <ToastMessage
@@ -86,11 +76,11 @@ const LoginPopup = ({ setShowLogin }) => {
                     <h2>{currState}</h2>
                 </div>
                 <button
+                    type="button"
                     className="login-popup-close"
                     onClick={() => setShowLogin(false)}
                     aria-label="Close"
                 >
-                    <img src={assets.close_icon} alt="Close" />
                 </button>
                 <div className="login-popup-inputs">
                     {currState === "Sign Up" && (

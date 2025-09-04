@@ -18,7 +18,7 @@ const Payment = () => {
     const [toast, setToast] = useState({ message: '', type: '' });
     const navigate = useNavigate();
     
-    const deliveryFee = getTotalCartAmount() * 0.1;
+    const deliveryFee = Math.round(200);
     const totalAmount = getTotalCartAmount() + deliveryFee;
 
     useEffect(() => {
@@ -114,7 +114,7 @@ const Payment = () => {
                         return null;
                     })}
                     <div className="item">
-                        <p>Delivery Charge(10%)</p>
+                        <p>Delivery Charge</p>
                         <p className="price">Rs.{deliveryFee.toFixed(2)}</p>
                     </div>
                 </div>

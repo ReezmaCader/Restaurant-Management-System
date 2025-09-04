@@ -15,9 +15,9 @@ const FoodDisplay = ({ category }) => {
 
   const fetchMenuItems = async () => {
     try {
-      const data = await api.getMenuItems();
+      const availableItems = await api.getMenuItems();
       // Filter only available items
-      const availableItems = data.filter(item => item.availability === true);
+      //const availableItems = data.filter(item => item.availability === true);
       setFoodList(availableItems);
     } catch (error) {
       console.error('Error fetching menu items:', error);
@@ -46,6 +46,7 @@ const FoodDisplay = ({ category }) => {
                 freeItem={item.freeItem}
                 averageRating={item.averageRating}
                 totalRatings={item.totalRatings}
+                availability={item.availability}
               />
             );
           }

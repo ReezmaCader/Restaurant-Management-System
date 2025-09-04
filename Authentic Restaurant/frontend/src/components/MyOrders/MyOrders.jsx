@@ -56,6 +56,8 @@ function MyOrders() {
     switch (status) {
       case 'food_processing':
         return '#ff9800';
+      case 'order_pick_up':
+        return '#9c27b0';
       case 'out_for_delivery':
         return '#2196f3';
       case 'delivered':
@@ -69,6 +71,8 @@ function MyOrders() {
     switch (status) {
       case 'food_processing':
         return 'Food Processing';
+      case 'order_pick_up':
+        return 'Order Pick Up';
       case 'out_for_delivery':
         return 'Out for Delivery';
       case 'delivered':
@@ -96,9 +100,12 @@ function MyOrders() {
                 <div className="order-header">
                   <div className="order-id">Order #{order.orderId}</div>
                   <div className="order-date">
-                    {new Date(order.createdAt).toLocaleDateString()}
+                    {new Date(order.createdAt).toLocaleString()}
                   </div>
                 </div>
+
+
+
 
                 <div className="order-items">
                   {order.items.map((item, index) => (

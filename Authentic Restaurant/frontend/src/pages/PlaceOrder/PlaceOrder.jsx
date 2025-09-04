@@ -63,7 +63,7 @@ const PlaceOrder = () => {
   };
 
   const subtotal = getTotalCartAmount();
-  const deliveryFee = Math.round(subtotal * 0.1 * 100) / 100;
+  const deliveryFee = Math.round(200); // Fixed delivery fee
   const total = Math.round((subtotal + deliveryFee) * 100) / 100;
 
   return (
@@ -123,7 +123,7 @@ const PlaceOrder = () => {
             </div>
             <hr />
             <div className="cart-total-details">
-              <p>Delivery Charge(10%)</p>
+              <p>Delivery Charge</p>
               <p>Rs.{deliveryFee.toFixed(2)}</p>
             </div>
             <hr />

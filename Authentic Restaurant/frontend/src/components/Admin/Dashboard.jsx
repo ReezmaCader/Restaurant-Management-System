@@ -155,25 +155,19 @@ function Dashboard() {
       .slice(0, 5);
   };
 
- const chartOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      ticks: {
-        stepSize: 1, 
-        callback: function (value) {
-          return Number.isInteger(value) ? value : null;
-        },
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
       },
     },
-  },
-};
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
 
   const dailyChartData = {
     labels: dashboardData.dailyOrders.map(d => d.date),

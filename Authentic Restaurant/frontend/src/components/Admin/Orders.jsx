@@ -58,9 +58,11 @@ function OrderPending() {
     try {
       const allOrders = await api.getOrders();
       const pendingOrders = allOrders.filter(order =>
-        order.status === 'food_processing' || order.status === 'out_for_delivery'
+        order.status === 'food_processing' || order.status === 'out_for_delivery' || order.status === 'order_pick_up'
       );
       setOrders(pendingOrders);
+
+      console.log('Pending Orders:', pendingOrders);
 
       // Fetch menu item details for images
       const itemIds = [...new Set(pendingOrders.flatMap(order =>
@@ -83,6 +85,7 @@ function OrderPending() {
       fetchPendingOrders();
       const statusEmoji = {
         'food_processing': '👨‍🍳',
+        'order_pick_up': '🛍️',
         'out_for_delivery': '🚚',
         'delivered': '✅'
       };
@@ -94,6 +97,22 @@ function OrderPending() {
       console.error('Error updating order status:', error);
       setToast({ message: '❌ Failed to update order status', type: 'error' });
     }
+  };
+
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    return {
+      date: date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      }),
+      time: date.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true 
+      })
+    };
   };
 
   const renderItemImage = (item) => {
@@ -132,45 +151,56 @@ function OrderPending() {
       {orders.length === 0 ? (
         <div className="no-orders">No pending orders</div>
       ) : (
-        orders.map(order => (
-          <div key={order.orderId} className="order-card">
-            <div className="order-main">
-              {order.items.map((item, index) => (
-                <div key={index} className="order-item">
-                  {renderItemImage(item)}
-                  <div className="order-item-info">
-                    <div className="item-name-qty">{item.name} X {item.quantity}</div>
-                    <div className="item-badges">
-                      {item.freeItem && <span className="bogo-badge-cont">BOGO</span>}
-                      {item.discount > 0 && <span className="discount-badge-cont">{item.discount}% OFF</span>}
+        orders.map(order => {
+          const { date, time } = formatDateTime(order.createdAt);
+          return (
+            <div key={order.orderId} className="order-card">
+              {/* Order Header with ID and Date/Time */}
+              <div className="order-header-admin">
+                <div className="order-id">Order ID: #{order.orderId}</div>
+                <div className="order-datetime">
+                  <div className="order-date">{date} {time}</div>
+                  {/* <div className="order-time">{time}</div> */}
+                </div>
+              </div>
+
+              <div className="order-main">
+                {order.items.map((item, index) => (
+                  <div key={index} className="order-item">
+                    {renderItemImage(item)}
+                    <div className="order-item-info">
+                      <div className="item-name-qty">{item.name} X {item.quantity}</div>
+                      <div className="item-badges">
+                        {item.freeItem && <span className="bogo-badge-cont">BOGO</span>}
+                        {item.discount > 0 && <span className="discount-badge-cont">{item.discount}% OFF</span>}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-
-            </div>
-
-            <div className="order-details-con">
-              <div className="order-summary">
-                <div>Items: {order.items.reduce((sum, item) => sum + item.quantity, 0)} &nbsp;&nbsp;|&nbsp;&nbsp; Rs. {order.total.toFixed(2)}</div>
-                
+                ))}
               </div>
-              <div>{order.customerInfo.firstName} {order.customerInfo.lastName}</div>
-              <div>{order.customerInfo.address}</div>
-              <div>{order.customerInfo.phone}</div>
-              <div>{order.customerInfo.email}</div>
+
+              <div className="order-details-con">
+                <div className="order-summary">
+                  <div>Items: {order.items.reduce((sum, item) => sum + item.quantity, 0)} &nbsp;&nbsp;|&nbsp;&nbsp; Rs. {order.total.toFixed(2)}</div>
+                </div>
+                <div>{order.customerInfo.firstName} {order.customerInfo.lastName}</div>
+                <div>{order.customerInfo.address}</div>
+                <div>{order.customerInfo.phone}</div>
+                <div>{order.customerInfo.email}</div>
+              </div>
+              <select
+                className="order-status"
+                value={order.status}
+                onChange={(e) => handleStatusChange(order.orderId, e.target.value)}
+              >
+                <option value="food_processing">Food Processing</option>
+                <option value="order_pick_up">Order Pick Up</option>
+                <option value="out_for_delivery">Out for Delivery</option>
+                <option value="delivered">Delivered</option>
+              </select>
             </div>
-            <select
-              className="order-status"
-              value={order.status}
-              onChange={(e) => handleStatusChange(order.orderId, e.target.value)}
-            >
-              <option value="food_processing">Food Processing</option>
-              <option value="out_for_delivery">Out for Delivery</option>
-              <option value="delivered">Delivered</option>
-            </select>
-          </div>
-        ))
+          );
+        })
       )}
     </div>
   );
@@ -225,6 +255,22 @@ function OrderCompleted() {
     }
   };
 
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    return {
+      date: date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      }),
+      time: date.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true 
+      })
+    };
+  };
+
   const renderItemImage = (item) => {
     const menuItem = menuItems[item.itemId];
 
@@ -261,35 +307,47 @@ function OrderCompleted() {
       {orders.length === 0 ? (
         <div className="no-orders">No completed orders</div>
       ) : (
-        orders.map(order => (
-          <div key={order.orderId} className="order-card">
-            <div className="order-main">
-              {order.items.map((item, index) => (
-                <div key={index} className="order-item">
-                  {renderItemImage(item)}
-                  <div className="order-item-info">
-                    <div className="item-name-qty">{item.name} X {item.quantity}</div>
-                    <div className="item-badges">
-                      {item.freeItem && <span className="bogo-badge-cont">BOGO</span>}
-                      {item.discount > 0 && <span className="discount-badge-cont">{item.discount}% OFF</span>}
+        orders.map(order => {
+          const { date, time } = formatDateTime(order.createdAt);
+          const deliveredDateTime = formatDateTime(order.updatedAt);
+          return (
+            <div key={order.orderId} className="order-card">
+              {/* Order Header with ID and Date/Time */}
+              <div className="order-header-admin">
+                <div className="order-id">Order ID: #{order.orderId}</div>
+                <div className="order-datetime">
+                  <div className="order-date">{date} {time}</div>
+                  {/* <div className="order-time">{time}</div> */}
+                </div>
+              </div>
+
+              <div className="order-main">
+                {order.items.map((item, index) => (
+                  <div key={index} className="order-item">
+                    {renderItemImage(item)}
+                    <div className="order-item-info">
+                      <div className="item-name-qty">{item.name} X {item.quantity}</div>
+                      <div className="item-badges">
+                        {item.freeItem && <span className="bogo-badge-cont">BOGO</span>}
+                        {item.discount > 0 && <span className="discount-badge-cont">{item.discount}% OFF</span>}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-              
-            </div>
-            <div className="order-details-con">
-              <div className="order-summary">
-                <div>Items: {order.items.reduce((sum, item) => sum + item.quantity, 0)} &nbsp;&nbsp;|&nbsp;&nbsp; Rs. {order.total.toFixed(2)} &nbsp;&nbsp;|&nbsp;&nbsp; Completed</div>
-                
+                ))}
               </div>
-              <div>{order.customerInfo.firstName} {order.customerInfo.lastName}</div>
-              <div>{order.customerInfo.address}</div>
-              <div>{order.customerInfo.phone}</div>
-              <div>Delivered on: {new Date(order.updatedAt).toLocaleDateString()}</div>
+              
+              <div className="order-details-con">
+                <div className="order-summary">
+                  <div>Items: {order.items.reduce((sum, item) => sum + item.quantity, 0)} &nbsp;&nbsp;|&nbsp;&nbsp; Rs. {order.total.toFixed(2)} &nbsp;&nbsp;|&nbsp;&nbsp; Completed</div>
+                </div>
+                <div>{order.customerInfo.firstName} {order.customerInfo.lastName}</div>
+                <div>{order.customerInfo.address}</div>
+                <div>{order.customerInfo.phone}</div>
+                <div>Delivered on: {deliveredDateTime.date} at {deliveredDateTime.time}</div>
+              </div>
             </div>
-          </div>
-        ))
+          );
+        })
       )}
     </div>
   );

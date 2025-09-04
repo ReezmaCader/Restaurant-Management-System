@@ -178,12 +178,6 @@ function FoodList({ onEdit }) {
                   >
                     ✏️
                   </span>
-                  <span
-                    className="action-icon view"
-                    onClick={() => toggleAvailability(food.itemId, food.availability)}
-                  >
-                    👁️
-                  </span>
                 </div>
               </td>
             </tr>

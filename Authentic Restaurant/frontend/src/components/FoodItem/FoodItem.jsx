@@ -3,7 +3,7 @@ import './FoodItem.css'
 import { assets } from '../../assets/assets'
 import { StoreContext } from '../../Context/StoreContext';
 
-const FoodItem = ({ id, name, price, description, image, averageRating, totalRatings, discount, freeItem }) => {
+const FoodItem = ({ id, name, price, description, image, averageRating, totalRatings, discount, freeItem, availability }) => {
     const { cartItems, addToCart, removeFromCart } = useContext(StoreContext);
 
     const calculateDiscountedPrice = () => {
@@ -16,7 +16,7 @@ const FoodItem = ({ id, name, price, description, image, averageRating, totalRat
     const displayPrice = calculateDiscountedPrice();
 
     return (
-        <div className='food-item'>
+        <div className={`food-item ${!availability ? 'unavailable' : ''}`}>
             <div className='food-item-img-container'>
                 <img className='food-item-image' src={image} alt="" />
 
@@ -34,9 +34,16 @@ const FoodItem = ({ id, name, price, description, image, averageRating, totalRat
                     </div>
                 )}
 
-                {!cartItems[id]
+                {/* Unavailable Overlay */}
+                {!availability && (
+                    <div className="unavailable-overlay">
+                        <span>Currently Unavailable</span>
+                    </div>
+                )}
+
+                {availability && !cartItems[id]
                     ? <img className='add' onClick={() => addToCart(id)} src={assets.add_icon_white} alt="" />
-                    : <div className="food-item-counter">
+                    : availability && <div className="food-item-counter">
                         <img src={assets.remove_icon_red} onClick={() => removeFromCart(id)} alt="" />
                         <p>{cartItems[id]}</p>
                         <img src={assets.add_icon_green} onClick={() => addToCart(id)} alt="" />

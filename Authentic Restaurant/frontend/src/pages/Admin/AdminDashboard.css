@@ -1378,6 +1378,37 @@
   margin-bottom: 15px;
 }
 
+.order-header-admin {
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 10px;
+}
+
+.order-id {
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+}
+
+.order-datetime {
+  text-align: right;
+}
+
+.order-date {
+  font-weight: 500;
+  color: #666;
+  font-size: 14px;
+}
+
+.order-time {
+  color: #888;
+  font-size: 13px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .order-item-img,

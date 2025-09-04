@@ -24,8 +24,8 @@ const OrderSchema = new mongoose.Schema({
     total: { type: Number, required: true },
     status: { 
         type: String, 
-        enum: ["food_processing", "out_for_delivery", "delivered"], 
-        default: "food_processing" 
+        enum: ["food_processing", "order_pick_up", "out_for_delivery", "delivered"], 
+        default: "order_pick_up" 
     },
     paymentStatus: {
         type: String,

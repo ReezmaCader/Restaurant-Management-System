@@ -28,6 +28,9 @@ const ExploreMenu = ({ category, setCategory }) => {
           </div>
         ))}
       </div>
+      <p className='delivery-info'>
+        Delivery available only around Mount Lavinia, Ratmalana, Dehiwala
+      </p>
       <hr />
     </div>
   );
