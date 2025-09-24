@@ -70,7 +70,7 @@ exports.createOrder = async (req, res) => {
             subtotal += itemTotal;
         }
 
-        const deliveryCharge = 200;
+        const deliveryCharge = 120;
         const total = subtotal + deliveryCharge;
 
         const order = new Order({

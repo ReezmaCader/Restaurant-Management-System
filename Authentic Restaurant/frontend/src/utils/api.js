@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3001/api'; // Replace with your actual API URL
+const API_URL = 'http://localhost:3001/api'; 
 
 // Helper function for making API requests
 const fetchApi = async (endpoint, options = {}) => {

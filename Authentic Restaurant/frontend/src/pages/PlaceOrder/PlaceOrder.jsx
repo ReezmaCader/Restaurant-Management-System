@@ -63,7 +63,7 @@ const PlaceOrder = () => {
   };
 
   const subtotal = getTotalCartAmount();
-  const deliveryFee = Math.round(200); // Fixed delivery fee
+  const deliveryFee = Math.round(120); 
   const total = Math.round((subtotal + deliveryFee) * 100) / 100;
 
   return (

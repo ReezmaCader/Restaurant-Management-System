@@ -18,7 +18,7 @@ const Payment = () => {
     const [toast, setToast] = useState({ message: '', type: '' });
     const navigate = useNavigate();
     
-    const deliveryFee = Math.round(200);
+    const deliveryFee = Math.round(120);
     const totalAmount = getTotalCartAmount() + deliveryFee;
 
     useEffect(() => {

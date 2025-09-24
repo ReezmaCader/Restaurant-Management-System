@@ -22,7 +22,7 @@ const StoreContextProvider = (props) => {
     const loadCartFromStorage = () => {
         const savedCart = localStorage.getItem('cartItems');
         if (savedCart) {
-            try {
+        try {
                 const parsedCart = JSON.parse(savedCart);
                 setCartItems(parsedCart);
             } catch (error) {
@@ -42,6 +42,7 @@ const StoreContextProvider = (props) => {
     };
 
     const addToCart = (itemId) => {
+        
         if (!cartItems[itemId]) {
             setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
         } else {
@@ -73,14 +74,14 @@ const StoreContextProvider = (props) => {
                 let itemInfo = food_list.find((product) => product.itemId == item);
                 if (itemInfo) {
                     let itemPrice = itemInfo.price;
-                    
+
                     // Apply discount if available
                     if (itemInfo.discount > 0) {
                         itemPrice = itemPrice * (1 - itemInfo.discount / 100);
                     }
-                    
+
                     let quantity = cartItems[item];
-                    
+
                     // Handle BOGO (Buy One Get One Free)
                     if (itemInfo.freeItem) {
                         // For BOGO, customer pays for half the quantity (rounded up)
@@ -92,7 +93,7 @@ const StoreContextProvider = (props) => {
                 }
             }
         }
-        // Round to 2 decimal places to avoid floating point precision issues
+       
         return Math.round(totalAmount * 100) / 100;
     }
 
