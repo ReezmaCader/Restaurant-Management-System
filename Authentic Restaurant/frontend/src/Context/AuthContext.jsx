@@ -17,11 +17,6 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         
         if (token) {
-          // In a real app, we would fetch the user from the API
-          // const userData = await api.getCurrentUser();
-          // setCurrentUser(userData);
-          
-          // For demo purposes, we'll just set the first user as logged in
           setCurrentUser(dummyUsers[0]);
         }
       } catch (err) {
@@ -40,15 +35,9 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      
-      // In a real app, we would call the API
-      // const response = await api.login({ email, password });
-      // localStorage.setItem('token', response.token);
-      // setCurrentUser(response.user);
-      
-      // For demo purposes
+     
       const user = dummyUsers.find(u => u.email === email);
-      if (user && password === 'password') { // Simple check for demo
+      if (user && password === 'password') { 
         localStorage.setItem('token', 'demo-token');
         setCurrentUser(user);
         return { success: true };
@@ -67,13 +56,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      
-      // In a real app, we would call the API
-      // const response = await api.register(userData);
-      // localStorage.setItem('token', response.token);
-      // setCurrentUser(response.user);
-      
-      // For demo purposes
+    
       const newUser = {
         id: dummyUsers.length + 1,
         ...userData,
@@ -95,9 +78,7 @@ export const AuthProvider = ({ children }) => {
   };
   
   const logout = () => {
-    // In a real app, we might call the API
-    // api.logout();
-    
+   
     localStorage.removeItem('token');
     setCurrentUser(null);
   };
@@ -106,12 +87,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      
-      // In a real app, we would call the API
-      // const updatedUser = await api.updateUserProfile(updates);
-      // setCurrentUser(updatedUser);
-      
-      // For demo purposes
+     
       setCurrentUser(prev => ({
         ...prev,
         ...updates

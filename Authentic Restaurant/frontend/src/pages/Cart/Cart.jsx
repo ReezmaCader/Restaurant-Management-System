@@ -118,7 +118,6 @@ const Cart = () => {
           </div>
           <button
             onClick={handleCart}
-            //disabled={!user}
           >PROCEED TO CHECKOUT</button>
         </div>
       </div>

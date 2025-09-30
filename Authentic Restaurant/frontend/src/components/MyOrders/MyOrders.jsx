@@ -103,10 +103,7 @@ function MyOrders() {
                     {new Date(order.createdAt).toLocaleString()}
                   </div>
                 </div>
-
-
-
-
+                
                 <div className="order-items">
                   {order.items.map((item, index) => (
                     <div key={index} className="order-item-row">

@@ -28,7 +28,7 @@ const fetchApi = async (endpoint, options = {}) => {
       window.location.href = '/';
       return null;
     }
-
+8
     // Check if the response has content before trying to parse JSON
     const contentType = response.headers.get('content-type');
     if (contentType && contentType.includes('application/json')) {
